@@ -37,3 +37,7 @@ The result is a leaderboard of evolved strategies, each with:
 ## Vision
 
 Alphalution is built around the idea that alpha discovery can be treated as an evolutionary search problem. By combining data validation, hypothesis generation, and survival-of-the-fittest selection, the system aims to uncover unconventional signals hiding across domains.
+
+## Workflow Diagram
+
+![alt text](workflow_diagram.png)
