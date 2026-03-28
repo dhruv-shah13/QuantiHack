@@ -6,9 +6,7 @@ Falls back to random generation if OpenAI is unavailable.
 import json
 import random
 from src.strategy.code_generator import Strategy, _make_id, random_population
-from config.settings import (
-    OPENAI_API_KEY, TRANSFORMS, WINDOWS, LAGS, SIGNAL_TYPES, USE_MOCK_DATA
-)
+from config.settings import OPENAI_API_KEY, TRANSFORMS, WINDOWS, LAGS, SIGNAL_TYPES
 
 
 SYSTEM_PROMPT = """You are a quantitative research assistant for EvoAlpha, an evolutionary strategy engine.
@@ -194,7 +192,7 @@ def parse_user_prompt(prompt: str, available_assets: dict | None = None) -> dict
         - trend_keywords: list[str] (Google Trends keywords to pull)
     """
     # Try OpenAI-powered smart parsing first
-    if OPENAI_API_KEY and not USE_MOCK_DATA:
+    if OPENAI_API_KEY:
         try:
             return _parse_with_openai(prompt, available_assets)
         except Exception as e:

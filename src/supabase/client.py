@@ -19,13 +19,13 @@ def get_supabase_client():
         return _client
 
     if not SUPABASE_URL:
-        print("  ⚠ Supabase URL not configured — using mock data")
+        print("  ⚠ Supabase URL not configured")
         return None
 
     # Prefer service role key (server-side, full access), fall back to anon key
     key = SUPABASE_SERVICE_ROLE_KEY or SUPABASE_ANON_KEY
     if not key:
-        print("  ⚠ No Supabase key configured — using mock data")
+        print("  ⚠ No Supabase key configured")
         return None
 
     try:
