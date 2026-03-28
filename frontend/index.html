@@ -1,1 +1,293 @@
-<!-- EvoAlpha Dashboard -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Alphalution evolves quantitative hypotheses using genetic algorithms. Discover hidden alpha in unrelated datasets.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <!-- Grain / noise overlay -->
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="nav">
+        <div class="nav-logo">
+            <span class="logo-evo">Alpha</span><span class="logo-alpha">lution</span>
+        </div>
+        <div class="nav-links">
+            <a href="#pipeline-section">Pipeline</a>
+            <a href="#about">About</a>
+            <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+        </div>
+    </nav>
+
+    <!-- ===================== HERO SECTION ===================== -->
+    <section id="hero" class="hero">
+        <canvas id="dna-hero-canvas" class="dna-hero-canvas"></canvas>
+
+        <div class="hero-content">
+            <div class="hero-badge">GENETIC ALGORITHM &times; QUANTITATIVE FINANCE</div>
+            <h1 class="hero-title">
+                <span class="title-line">EVOLVE</span>
+                <span class="title-line title-accent">QUANTITATIVE</span>
+                <span class="title-line">HYPOTHESES</span>
+            </h1>
+            <p class="hero-subtitle">
+                Survival of the Fittest Models<br>
+                Adapt. Mutate. Outperform.
+            </p>
+        </div>
+
+        <!-- Research Console -->
+        <div class="research-console">
+            <div class="console-header">
+                <span class="console-dot red"></span>
+                <span class="console-dot yellow"></span>
+                <span class="console-dot green"></span>
+                <span class="console-title">RESEARCH HYPOTHESIS</span>
+            </div>
+            <div class="console-body">
+                <div class="input-row">
+                    <span class="input-prompt">&gt;</span>
+                    <input type="text" id="hypothesis-input" class="hypothesis-input"
+                        placeholder='e.g. "Does water temperature influence oil prices?"' autocomplete="off"
+                        spellcheck="false">
+                </div>
+                <button id="evolve-btn" class="evolve-btn" disabled>
+                    <span class="btn-text">BEGIN EVOLUTION</span>
+                    <span class="btn-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </span>
+                </button>
+            </div>
+            <div class="example-chips">
+                <span class="chip-label">TRY:</span>
+                <button class="chip" data-query="Does water temperature influence oil prices?">🌡️ Temperature →
+                    Oil</button>
+                <button class="chip" data-query="Do lunar cycles affect stock market volatility?">🌙 Lunar →
+                    Volatility</button>
+                <button class="chip" data-query="Does solar activity predict commodity prices?">☀️ Solar →
+                    Commodities</button>
+                <button class="chip" data-query="Do ocean currents correlate with energy futures?">🌊 Ocean →
+                    Energy</button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- ===================== PIPELINE SECTION ===================== -->
+    <section id="pipeline-section" class="pipeline-section">
+        <h2 class="section-title">THE PIPELINE</h2>
+        <p class="section-subtitle">From question to evolved alpha — in 7 stages</p>
+        <div class="pipeline-track">
+            <div class="pipeline-step">
+                <div class="step-number">01</div>
+                <div class="step-icon">⌘</div>
+                <h3>Parser</h3>
+                <p>Extract feature &amp; target variables from your question</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step">
+                <div class="step-number">02</div>
+                <div class="step-icon">⬡</div>
+                <h3>Data Loader</h3>
+                <p>Pull from Supabase, normalize timestamps, merge datasets</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step">
+                <div class="step-number">03</div>
+                <div class="step-icon">✦</div>
+                <h3>Hypothesis Gen</h3>
+                <p>GPT-4o-mini generates 20 candidate strategy JSONs</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step">
+                <div class="step-number">04</div>
+                <div class="step-icon">◈</div>
+                <h3>Backtester</h3>
+                <p>Score each strategy: Sharpe, PnL, slippage-adjusted</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step">
+                <div class="step-number">05</div>
+                <div class="step-icon">🧬</div>
+                <h3>Evolution</h3>
+                <p>Select top 50%, mutate, crossover — repeat 10 generations</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step">
+                <div class="step-number">06</div>
+                <div class="step-icon">◎</div>
+                <h3>Explainer</h3>
+                <p>GPT-4o interprets top strategies in natural language</p>
+            </div>
+            <div class="pipeline-connector"></div>
+            <div class="pipeline-step">
+                <div class="step-number">07</div>
+                <div class="step-icon">▣</div>
+                <h3>Leaderboard</h3>
+                <p>Ranked strategies with code, metrics &amp; insights</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== EVOLUTION VIEW ===================== -->
+    <section id="evolution-view" class="evolution-view hidden">
+        <canvas id="dna-evo-canvas" class="dna-evo-canvas"></canvas>
+
+        <!-- Hypothesis banner -->
+        <div class="evo-hypothesis-banner">
+            <span class="banner-label">HYPOTHESIS</span>
+            <span id="evo-hyp-text" class="banner-text"></span>
+        </div>
+
+        <!-- Phase progress -->
+        <div class="phase-progress">
+            <div class="phase-item" id="phase-parse">
+                <div class="phase-dot"></div>
+                <span>PARSE</span>
+            </div>
+            <div class="phase-line"></div>
+            <div class="phase-item" id="phase-load">
+                <div class="phase-dot"></div>
+                <span>LOAD</span>
+            </div>
+            <div class="phase-line"></div>
+            <div class="phase-item" id="phase-generate">
+                <div class="phase-dot"></div>
+                <span>GENERATE</span>
+            </div>
+            <div class="phase-line"></div>
+            <div class="phase-item" id="phase-evolve">
+                <div class="phase-dot"></div>
+                <span>EVOLVE</span>
+            </div>
+            <div class="phase-line"></div>
+            <div class="phase-item" id="phase-explain">
+                <div class="phase-dot"></div>
+                <span>EXPLAIN</span>
+            </div>
+        </div>
+
+        <!-- Stats dashboard -->
+        <div class="evo-dashboard">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-generation">0</div>
+                <div class="stat-label">GENERATION</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-strategies">0</div>
+                <div class="stat-label">STRATEGIES</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-sharpe">—</div>
+                <div class="stat-label">BEST SHARPE</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-pnl">—</div>
+                <div class="stat-label">BEST PnL</div>
+            </div>
+        </div>
+
+        <!-- Activity log -->
+        <div class="evo-log-container">
+            <div class="log-header">
+                <span class="log-dot"></span>
+                ACTIVITY LOG
+            </div>
+            <div id="evo-log" class="evo-log"></div>
+        </div>
+    </section>
+
+    <!-- ===================== RESULTS VIEW ===================== -->
+    <section id="results-view" class="results-view hidden">
+        <div class="results-header">
+            <h2 class="results-title">EVOLUTION COMPLETE</h2>
+            <p class="results-subtitle">
+                <span id="res-gens">10</span> generations · <span id="res-total">200</span> strategies evaluated
+            </p>
+        </div>
+
+        <!-- Summary cards -->
+        <div class="results-summary">
+            <div class="summary-card best">
+                <div class="summary-icon">🏆</div>
+                <div class="summary-label">BEST STRATEGY</div>
+                <div class="summary-value" id="res-best-name">—</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">📈</div>
+                <div class="summary-label">TOP SHARPE</div>
+                <div class="summary-value" id="res-best-sharpe">—</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-icon">💰</div>
+                <div class="summary-label">TOP PnL</div>
+                <div class="summary-value" id="res-best-pnl">—</div>
+            </div>
+        </div>
+
+        <!-- Leaderboard table -->
+        <div class="leaderboard-wrapper">
+            <h3 class="leaderboard-title">STRATEGY LEADERBOARD</h3>
+            <div class="leaderboard-table-container">
+                <table class="leaderboard-table" id="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>RANK</th>
+                            <th>FEATURE</th>
+                            <th>TRANSFORM</th>
+                            <th>WINDOW</th>
+                            <th>LAG</th>
+                            <th>SIGNAL</th>
+                            <th>SHARPE</th>
+                            <th>PnL</th>
+                            <th>ADJ. PnL</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Insight card -->
+        <div class="insight-card">
+            <div class="insight-header">
+                <span class="insight-icon">◎</span>
+                KEY INSIGHT
+            </div>
+            <p id="insight-text" class="insight-text"></p>
+        </div>
+
+        <!-- Actions -->
+        <div class="results-actions">
+            <button id="new-evolution-btn" class="action-btn secondary">
+                <span>NEW EVOLUTION</span>
+            </button>
+            <button id="download-btn" class="action-btn primary">
+                <span>DOWNLOAD STRATEGIES</span>
+            </button>
+        </div>
+    </section>
+
+    <script src="js/dna.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
