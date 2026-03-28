@@ -3,8 +3,10 @@ EvoAlpha — Main Entry Point
 An evolutionary engine for discovering hidden signals in data.
 
 Usage:
-    python main.py
-    python main.py "Does Google Trends interest in AI predict NVDA stock?"
+    python main.py                                          # Interactive CLI
+    python main.py "Does Google Trends interest in AI predict NVDA stock?"  # CLI with prompt
+    python main.py --serve                                  # Start web UI
+    python main.py --serve --port 8000                      # Web UI on custom port
 """
 import sys
 import time
@@ -147,5 +149,23 @@ def main():
     print("=" * 70)
 
 
+def serve(port: int = 8000):
+    """Start the FastAPI web server for the frontend UI."""
+    import uvicorn
+    from src.api.routes import app
+    print(BANNER)
+    print(f"🌐 Starting EvoAlpha web UI on http://localhost:{port}")
+    print(f"   Open your browser to http://localhost:{port}\n")
+    uvicorn.run(app, host="0.0.0.0", port=port)
+
+
 if __name__ == "__main__":
-    main()
+    if "--serve" in sys.argv:
+        port = 8000
+        if "--port" in sys.argv:
+            idx = sys.argv.index("--port")
+            if idx + 1 < len(sys.argv):
+                port = int(sys.argv[idx + 1])
+        serve(port)
+    else:
+        main()
