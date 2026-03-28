@@ -9,7 +9,7 @@ Usage:
 import sys
 import time
 
-from config.settings import POPULATION_SIZE, NUM_GENERATIONS, USE_MOCK_DATA
+from config.settings import POPULATION_SIZE, NUM_GENERATIONS
 from src.data.loader import load_data, get_available_features, list_available_assets
 from src.data.validator import validate_dataset
 from src.hypothesis.generator import generate_hypotheses, parse_user_prompt
@@ -43,26 +43,16 @@ def main():
     # --- 2. Parse prompt → target asset + features ---
     print("\n🔍 Parsing research question...")
 
-    if USE_MOCK_DATA:
-        print("  Using mock data (set USE_MOCK_DATA=False for Supabase)")
-        # Legacy mock data path
-        parsed = {
-            "target_symbol": "oil_price",
-            "target_asset_class": "mock",
-            "feature_symbols": [],
-            "trend_keywords": [],
-        }
-    else:
-        # Query available assets from Supabase for smart parsing
-        print("  Querying available assets from Supabase...")
-        available_assets = list_available_assets()
-        n_eq = len(available_assets.get("equity", []))
-        n_cr = len(available_assets.get("crypto", []))
-        n_fx = len(available_assets.get("fx", []))
-        n_tr = len(available_assets.get("trends", []))
-        print(f"  📦 Available: {n_eq} equities | {n_cr} crypto | {n_fx} FX | {n_tr} trend keywords")
+    # Query available assets from Supabase for smart parsing
+    print("  Querying available assets from Supabase...")
+    available_assets = list_available_assets()
+    n_eq = len(available_assets.get("equity", []))
+    n_cr = len(available_assets.get("crypto", []))
+    n_fx = len(available_assets.get("fx", []))
+    n_tr = len(available_assets.get("trends", []))
+    print(f"  📦 Available: {n_eq} equities | {n_cr} crypto | {n_fx} FX | {n_tr} trend keywords")
 
-        parsed = parse_user_prompt(user_prompt, available_assets)
+    parsed = parse_user_prompt(user_prompt, available_assets)
 
     target_symbol = parsed["target_symbol"]
     target_ac = parsed["target_asset_class"]
@@ -79,17 +69,13 @@ def main():
     print("\n📊 Loading data...")
     t0 = time.time()
 
-    if USE_MOCK_DATA:
-        df = load_data()
-        target_col = target_symbol  # e.g. "oil_price"
-    else:
-        df = load_data(
-            target_symbol=target_symbol,
-            target_asset_class=target_ac,
-            feature_symbols=feature_symbols,
-            trend_keywords=trend_keywords,
-        )
-        target_col = f"{target_symbol}_close"
+    df = load_data(
+        target_symbol=target_symbol,
+        target_asset_class=target_ac,
+        feature_symbols=feature_symbols,
+        trend_keywords=trend_keywords,
+    )
+    target_col = f"{target_symbol}_close"
 
     load_time = time.time() - t0
     available_features = get_available_features(df, target_col)
