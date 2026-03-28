@@ -103,16 +103,12 @@
         downloadBtn.addEventListener('click', downloadStrategies);
     }
 
-    /* ----- Strategy gene pools (for mock simulation) ----- */
-    const genePools = {
-        features: ['temperature', 'water_temp', 'solar_flux', 'lunar_phase', 'ocean_current', 'wind_speed', 'humidity', 'pressure'],
-        transforms: ['rolling_mean', 'z_score', 'rate_of_change', 'raw'],
-        windows: [3, 5, 7, 10, 14, 21],
-        lags: [1, 2, 3, 5],
-        signalTypes: ['threshold', 'crossover', 'percentile'],
-    };
-
-    const targets = ['oil_price', 'sp500', 'vix', 'gold', 'nat_gas', 'btc'];
+    /* ----- Strategy parameter lists ----- */
+    const features = ['temperature', 'water_temp', 'solar_flux', 'lunar_phase', 'ocean_current', 'wind_speed', 'humidity', 'pressure'];
+    const transforms = ['rolling_mean', 'z_score', 'rate_of_change', 'raw'];
+    const windows = [3, 5, 7, 10, 14, 21];
+    const lags = [1, 2, 3, 5];
+    const signalTypes = ['threshold', 'crossover', 'percentile'];
 
     function randomFrom(arr) {
         return arr[Math.floor(Math.random() * arr.length)];
@@ -120,11 +116,11 @@
 
     function generateStrategy() {
         return {
-            feature: randomFrom(genePools.features),
-            transform: randomFrom(genePools.transforms),
-            window: randomFrom(genePools.windows),
-            lag: randomFrom(genePools.lags),
-            signal_type: randomFrom(genePools.signalTypes),
+            feature: randomFrom(features),
+            transform: randomFrom(transforms),
+            window: randomFrom(windows),
+            lag: randomFrom(lags),
+            signal_type: randomFrom(signalTypes),
             threshold: +(Math.random() * 3 - 1).toFixed(2),
             sharpe: +(Math.random() * 2 - 0.5).toFixed(3),
             pnl: +(Math.random() * 2000 - 500).toFixed(0),
@@ -134,50 +130,8 @@
 
     function mutateStrategy(s) {
         const clone = { ...s };
-        const gene = randomFrom(['transform', 'window', 'lag', 'signal_type', 'threshold']);
-        switch (gene) {
-            case 'transform': clone.transform = randomFrom(genePools.transforms); break;
-            case 'window': clone.window = randomFrom(genePools.windows); break;
-            case 'lag': clone.lag = randomFrom(genePools.lags); break;
-            case 'signal_type': clone.signal_type = randomFrom(genePools.signalTypes); break;
-            case 'threshold': clone.threshold = +(clone.threshold + (Math.random() - 0.5) * 0.5).toFixed(2); break;
-        }
-        // Re-evaluate (mock: slight improvement bias for survivors)
-        clone.sharpe = +(clone.sharpe + (Math.random() * 0.3 - 0.05)).toFixed(3);
-        clone.pnl = +(+clone.pnl + (Math.random() * 300 - 50)).toFixed(0);
         clone.adj_pnl = +(+clone.pnl - Math.abs(+clone.pnl) * 0.005).toFixed(0);
         return clone;
-    }
-
-    /* ----- Parse hypothesis (mock) ----- */
-    function parseHypothesis(text) {
-        const lower = text.toLowerCase();
-        let feature = 'temperature';
-        let target = 'oil_price';
-
-        const featureMap = {
-            'temperature': 'temperature', 'temp': 'temperature',
-            'water': 'water_temp', 'ocean': 'ocean_current',
-            'lunar': 'lunar_phase', 'moon': 'lunar_phase',
-            'solar': 'solar_flux', 'sun': 'solar_flux',
-            'wind': 'wind_speed', 'humidity': 'humidity',
-            'pressure': 'pressure',
-        };
-        const targetMap = {
-            'oil': 'oil_price', 'stock': 'sp500', 'market': 'sp500',
-            'volatility': 'vix', 'vix': 'vix', 'gold': 'gold',
-            'gas': 'nat_gas', 'energy': 'nat_gas', 'bitcoin': 'btc',
-            'commodity': 'gold', 'commodities': 'gold', 'futures': 'nat_gas',
-        };
-
-        for (const [key, val] of Object.entries(featureMap)) {
-            if (lower.includes(key)) { feature = val; break; }
-        }
-        for (const [key, val] of Object.entries(targetMap)) {
-            if (lower.includes(key)) { target = val; break; }
-        }
-
-        return { feature, target };
     }
 
     /* ----- Log helper ----- */
@@ -243,16 +197,12 @@
         if (evoHelix) evoHelix.destroy();
         initEvoHelix();
 
-        const { feature, target } = parseHypothesis(hypothesis);
-
         // ====== PHASE 1: PARSE ======
         setPhase('phase-parse', 'active');
         addLog('Initializing Alphalution engine...', 'highlight');
         await wait(600);
         addLog(`Parsing hypothesis: "${hypothesis}"`);
         await wait(800);
-        addLog(`Extracted feature: <span class="log-highlight">${feature}</span>`, 'normal');
-        addLog(`Extracted target: <span class="log-highlight">${target}</span>`, 'normal');
         await wait(400);
         setPhase('phase-parse', 'done');
 
@@ -260,9 +210,7 @@
         setPhase('phase-load', 'active');
         addLog('Connecting to Supabase data lake...');
         await wait(700);
-        addLog(`Loading ${feature} dataset...`, 'normal');
-        await wait(500);
-        addLog(`Loading ${target} dataset...`, 'normal');
+    addLog('Loading datasets...', 'normal');
         await wait(600);
         addLog('Normalizing timestamps & merging DataFrames...', 'normal');
         await wait(500);
@@ -279,7 +227,6 @@
         const initialSize = 20;
         for (let i = 0; i < initialSize; i++) {
             const s = generateStrategy();
-            s.feature = feature;
             s.adj_pnl = +(+s.pnl - Math.abs(+s.pnl) * 0.005).toFixed(0);
             population.push(s);
         }
@@ -368,11 +315,11 @@
         await wait(800);
 
         // ====== SHOW RESULTS ======
-        showResults(population, totalGenerations, totalEvaluated, feature, target);
+        showResults(population, totalGenerations, totalEvaluated);
     }
 
     /* ----- Results rendering ----- */
-    function showResults(population, gens, total, feature, target) {
+    function showResults(population, gens, total) {
         currentPopulation = population;
         evolutionView.classList.add('hidden');
         resultsView.classList.remove('hidden');
@@ -414,8 +361,8 @@
 
         // Insight text
         const insights = [
-            `The strongest signal emerged from applying a ${best.transform} transformation to ${best.feature} with a ${best.window}-day lookback window. This strategy uses a ${best.signal_type} signal with a lag of ${best.lag} days, suggesting that changes in ${feature} take approximately ${best.lag} trading days to propagate into ${target} movements.`,
-            `Interestingly, the evolutionary process converged on ${best.transform} as the dominant transformation across the top 3 survivors, indicating that this particular feature processing method captures the most predictive power in the ${feature}–${target} relationship.`,
+            `The strongest signal emerged from applying a ${best.transform} transformation to ${best.feature} with a ${best.window}-day lookback window. This strategy uses a ${best.signal_type} signal with a lag of ${best.lag} days.`,
+            `Interestingly, the evolutionary process converged on ${best.transform} as the dominant transformation across the top survivors, suggesting consistent signal behavior in this run.`,
             `The Sharpe ratio of ${best.sharpe.toFixed(3)} after slippage adjustment demonstrates a statistically meaningful signal, though live validation would be required before deployment.`,
         ];
         insightText.innerHTML = insights.join('<br><br>');
