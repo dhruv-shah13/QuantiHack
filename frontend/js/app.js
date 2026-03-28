@@ -259,11 +259,8 @@
             const ddClass = s.max_drawdown < 0 ? 'negative' : '';
             tr.innerHTML = `
                 <td>#${i + 1}</td>
-                <td>${s.feature}</td>
-                <td>${s.transform}</td>
                 <td>${s.window}</td>
                 <td>${s.lag}</td>
-                <td>${s.signal_type}</td>
                 <td class="${sharpeClass}">${s.sharpe.toFixed(3)}</td>
                 <td class="${pnlClass}">${(s.pnl * 100).toFixed(2)}%</td>
                 <td class="${adjPnlClass}">${(s.slippage_pnl * 100).toFixed(2)}%</td>
