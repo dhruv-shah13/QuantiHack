@@ -13,6 +13,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 # --- Supabase ---
 SUPABASE_URL = os.getenv("SUPABASE_URL", "")
 SUPABASE_ANON_KEY = os.getenv("SUPABASE_ANON_KEY", "")
+SUPABASE_SERVICE_ROLE_KEY = os.getenv("SUPABASE_SERVICE_ROLE_KEY", "")
 USE_MOCK_DATA = os.getenv("USE_MOCK_DATA", "True").lower() in ("true", "1", "yes")
 
 # --- Evolution Parameters ---
