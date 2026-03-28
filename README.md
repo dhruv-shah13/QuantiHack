@@ -40,4 +40,4 @@ Alphalution is built around the idea that alpha discovery can be treated as an e
 
 ## Workflow
 
-![alt text](workflow_diagram.png)
+![alt text](images/workflow_diagram.png)
