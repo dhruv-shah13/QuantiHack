@@ -108,13 +108,28 @@ async def evolve_sse(request: Request, hypothesis: str = ""):
             yield send("log", {"text": "Loading data from Supabase...", "type": "normal"})
 
             t0 = time.time()
-            df = await asyncio.to_thread(
-                load_data,
-                target_symbol=target_symbol,
-                target_asset_class=target_ac,
-                feature_symbols=feature_symbols,
-                trend_keywords=trend_keywords,
-            )
+            try:
+                df = await asyncio.to_thread(
+                    load_data,
+                    target_symbol=target_symbol,
+                    target_asset_class=target_ac,
+                    feature_symbols=feature_symbols,
+                    trend_keywords=trend_keywords,
+                )
+            except ValueError as e:
+                if "Merged dataset is empty" in str(e):
+                    yield send(
+                        "error",
+                        {
+                            "message": (
+                                "Not enough overlapping data for this hypothesis. "
+                                "Please try a simpler prompt with stronger data overlap."
+                            )
+                        },
+                    )
+                    return
+                else:
+                    raise
             target_col = f"{target_symbol}_close"
             load_time = time.time() - t0
             available_features = get_available_features(df, target_col)
@@ -233,7 +248,6 @@ async def evolve_sse(request: Request, hypothesis: str = ""):
             })
 
         except Exception as e:
-            yield send("log", {"text": f"Error: {str(e)}", "type": "warning"})
             yield send("error", {"message": str(e)})
 
     return EventSourceResponse(event_generator())

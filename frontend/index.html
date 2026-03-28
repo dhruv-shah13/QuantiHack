@@ -12,6 +12,8 @@
         href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css">
+    <!-- Marked.js for parsing markdown in insights -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 
 <body>
@@ -73,14 +75,9 @@
             </div>
             <div class="example-chips">
                 <span class="chip-label">TRY:</span>
-                <button class="chip" data-query="Does water temperature influence oil prices?">🌡️ Temperature →
-                    Oil</button>
-                <button class="chip" data-query="Do lunar cycles affect stock market volatility?">🌙 Lunar →
-                    Volatility</button>
-                <button class="chip" data-query="Does solar activity predict commodity prices?">☀️ Solar →
-                    Commodities</button>
-                <button class="chip" data-query="Do ocean currents correlate with energy futures?">🌊 Ocean →
-                    Energy</button>
+                <button class="chip" data-query="Amazon prices affecting Oracle stock prices">🌡️ Amazon →
+                    Oracle</button>
+
             </div>
         </div>
 
@@ -250,11 +247,8 @@
                     <thead>
                         <tr>
                             <th>RANK</th>
-                            <th>FEATURE</th>
-                            <th>TRANSFORM</th>
                             <th>WINDOW</th>
                             <th>LAG</th>
-                            <th>SIGNAL</th>
                             <th>SHARPE</th>
                             <th>PnL</th>
                             <th>ADJ. PnL</th>
